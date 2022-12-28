@@ -2,12 +2,12 @@ const express = require("express");
 const bodyParser = require("body-Parser");
 // const res = require("express/lib/response");
 const app = express();
-var item="";
+var items=["Buy food", "cook food", "eat food"];
 
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extened: true}));
-
+app.use(express.static("public"));
 app.get("/",function(req,res){
     var today = new Date();
     var day="";
@@ -19,11 +19,12 @@ app.get("/",function(req,res){
        month:"long"
     };
      day = today.toLocaleDateString("en-US" , option)
-res.render("list",  {  Kind:day ,  ListItem:item  } );
+res.render("list",  {  Kind:day ,  ListItem:items  } );
 
 });
 app.post("/",function(req,res){
-     item=req.body.newItem;
+    var  item=req.body.newItem;
+    items.push(item);
      res.redirect("/");
 });
 
